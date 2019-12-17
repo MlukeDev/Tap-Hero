@@ -16,12 +16,19 @@ class GameScene: SKScene {
     var greenButton = SKSpriteNode()
     var blueButton = SKSpriteNode()
     var redNote = SKSpriteNode()
-   
+    var timer: Timer?
+    
+    
     override func didMove(to view: SKView) {
         makeNote()
+        
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+        
     }
     
-    func makeNote()
+    
+    
+    @objc func makeNote()
     {
         redNote = SKSpriteNode(imageNamed: "RedNote")
         redNote.size = CGSize(width: 160, height: 160)
