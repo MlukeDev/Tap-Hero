@@ -25,9 +25,15 @@ class GameScene: SKScene {
     {
         redNote = SKSpriteNode(imageNamed: "RedNote")
         redNote.size = CGSize(width: 160, height: 160)
-        redNote.position = CGPoint(x: 0, y: 0)
+        redNote.position = CGPoint(x: -270, y: 800)
         redNote.name = "RedNote"
         addChild(redNote)
+        
+        
+        let moveDown = SKAction.moveTo(y: -800, duration: 3)
+        
+        redNote.run(moveDown)
+        
     }
     
     
