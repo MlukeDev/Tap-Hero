@@ -24,6 +24,7 @@ class GameScene: SKScene {
     func makeNote()
     {
         redNote = SKSpriteNode(imageNamed: "RedNote")
+        redNote.size = CGSize(width: 160, height: 160)
         redNote.position = CGPoint(x: 0, y: 0)
         redNote.name = "RedNote"
         addChild(redNote)
