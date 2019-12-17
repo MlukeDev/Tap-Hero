@@ -36,8 +36,12 @@ class GameScene: SKScene {
         
         
         let moveDown = SKAction.moveTo(y: -800, duration: 3)
+        let removeSprite = SKAction.run {
+            self.redNote.removeFromParent()
+        }
+        let sequence = SKAction.sequence([moveDown, removeSprite])
         
-        redNote.run(moveDown)
+        redNote.run(sequence)
         
     }
     
