@@ -20,8 +20,6 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
-        makeNote()
-        
         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
         
     }
