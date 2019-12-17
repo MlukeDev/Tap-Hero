@@ -11,5 +11,9 @@ import GameplayKit
 
 class GameScene: SKScene {
     
+    var redButton = SKSpriteNode()
+    var yellowButton = SKSpriteNode()
+    var greenButton = SKSpriteNode()
+    var blueButton = SKSpriteNode()
    
 }
