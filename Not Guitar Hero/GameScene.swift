@@ -32,7 +32,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
-        redButton = SKSpriteNode(
+        redButton = self.childNode(withName: "redButton") as! SKSpriteNode
         
 //        redButton.physicsBody?.categoryBitMask = 1
 //        yellowButton.physicsBody?.categoryBitMask = 1
