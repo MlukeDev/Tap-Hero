@@ -32,6 +32,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
+        redButton = SKSpriteNode(
+        
 //        redButton.physicsBody?.categoryBitMask = 1
 //        yellowButton.physicsBody?.categoryBitMask = 1
 //        greenButton.physicsBody?.categoryBitMask = 1
@@ -53,6 +55,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let location = touches.first!.location(in: self)
+        
         
     }
     
