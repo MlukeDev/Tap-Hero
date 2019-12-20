@@ -21,7 +21,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var blueNote = SKSpriteNode()
     var timer: Timer?
     var deleteTrigger = SKSpriteNode()
-    
+    var gameSpeed = 2
     
     
     override func didMove(to view: SKView) {
@@ -32,10 +32,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
-        redButton.physicsBody?.categoryBitMask = 1
-        yellowButton.physicsBody?.categoryBitMask = 1
-        greenButton.physicsBody?.categoryBitMask = 1
-        blueButton.physicsBody?.categoryBitMask = 1
+//        redButton.physicsBody?.categoryBitMask = 1
+//        yellowButton.physicsBody?.categoryBitMask = 1
+//        greenButton.physicsBody?.categoryBitMask = 1
+//        blueButton.physicsBody?.categoryBitMask = 1
 
         
         
@@ -44,28 +44,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        greenNote.physicsBody?.contactTestBitMask = 3
 //        blueNote.physicsBody?.contactTestBitMask = 3
         
-        deleteTrigger.physicsBody?.contactTestBitMask = 2
+        
         
         //        set the size and position of the node
         
         makeDeleteTrigger()
         
-        deleteTrigger.physicsBody?.categoryBitMask = 3
         
-        timer = Timer.scheduledTimer(timeInterval: 0.3, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
         
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        print("yo")
+        print("contact")
         
     if (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 3) || (contact.bodyB.categoryBitMask == 2 && contact.bodyA.categoryBitMask == 3)
       {
      
-        if contact.bodyA.node == deleteTrigger || contact.bodyB.node == deleteTrigger
+        if contact.bodyB.node == deleteTrigger
         {
             print("touched")
+            contact.bodyA.node?.removeFromParent()
+            
+        }
+        else
+        {
+            contact.bodyB.node?.removeFromParent()
         }
         
       }
@@ -75,10 +81,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func makeDeleteTrigger()
     {
         deleteTrigger = SKSpriteNode(color: .red, size: CGSize(width: frame.width, height: 50))
-        deleteTrigger.position = CGPoint(x: 0, y: -640)
+//        deleteTrigger.position = CGPoint(x: 0, y: -frame.height/2 - 20)
+        deleteTrigger.position = CGPoint(x: 0, y: -800)
         deleteTrigger.physicsBody = SKPhysicsBody(rectangleOf: deleteTrigger.frame.size)
-        deleteTrigger.physicsBody!.isDynamic = false
+        //deleteTrigger.physicsBody!.isDynamic = false
         deleteTrigger.name = "DeleteTrigger"
+        deleteTrigger.physicsBody?.categoryBitMask = 2
+        deleteTrigger.physicsBody?.contactTestBitMask = 3
+//        deleteTrigger.physicsBody?.isDynamic = true
+        deleteTrigger.physicsBody?.pinned = true
+        deleteTrigger.physicsBody?.allowsRotation = false
+
         addChild(deleteTrigger)
         print("Delete Trigger Made")
     }
@@ -93,7 +106,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             redNote = SKSpriteNode(imageNamed: "RedNote")
             redNote.size = CGSize(width: 160, height: 160)
-            redNote.position = CGPoint(x: -270, y: 800)
+            redNote.position = CGPoint(x: -240, y: 800)
             redNote.name = "RedNote"
             
             addChild(redNote)
@@ -101,9 +114,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             redNote.physicsBody = SKPhysicsBody(rectangleOf: redNote.frame.size)
             redNote.physicsBody?.usesPreciseCollisionDetection = true
             redNote.physicsBody!.isDynamic = false
-            redNote.physicsBody?.categoryBitMask = 2
+            redNote.physicsBody?.categoryBitMask = 3
             
-            let moveDown = SKAction.moveTo(y: -800, duration: 1)
+            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
             let removeSprite = SKAction.run {
  //               self.redNote.removeFromParent()
             }
@@ -118,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             yellowNote = SKSpriteNode(imageNamed: "YellowNote")
             yellowNote.size = CGSize(width: 160, height: 160)
-            yellowNote.position = CGPoint(x: -90, y: 800)
+            yellowNote.position = CGPoint(x: -80, y: 800)
             yellowNote.name = "YellowNote"
 
             addChild(yellowNote)
@@ -126,9 +139,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
            yellowNote.physicsBody = SKPhysicsBody(rectangleOf: yellowNote.frame.size)
            yellowNote.physicsBody?.usesPreciseCollisionDetection = true
            yellowNote.physicsBody!.isDynamic = false
-           yellowNote.physicsBody?.categoryBitMask = 2
+           yellowNote.physicsBody?.categoryBitMask = 3
             
-            let moveDown = SKAction.moveTo(y: -800, duration: 1)
+            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
             let removeSprite = SKAction.run {
 //                self.yellowNote.removeFromParent()
             }
@@ -143,7 +156,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             greenNote = SKSpriteNode(imageNamed: "GreenNote")
             greenNote.size = CGSize(width: 160, height: 160)
-            greenNote.position = CGPoint(x: 90, y: 800)
+            greenNote.position = CGPoint(x: 80, y: 800)
             greenNote.name = "GreenNote"
 
                        addChild(greenNote)
@@ -151,9 +164,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             greenNote.physicsBody = SKPhysicsBody(rectangleOf: greenNote.frame.size)
             greenNote.physicsBody?.usesPreciseCollisionDetection = true
             greenNote.physicsBody!.isDynamic = false
-            greenNote.physicsBody?.categoryBitMask = 2
+            greenNote.physicsBody?.categoryBitMask = 3
             
-            let moveDown = SKAction.moveTo(y: -800, duration: 1)
+            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
             let removeSprite = SKAction.run {
 //                self.greenNote.removeFromParent()
             }
@@ -168,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             blueNote = SKSpriteNode(imageNamed: "BlueNote")
             blueNote.size = CGSize(width: 160, height: 160)
-            blueNote.position = CGPoint(x: 270, y: 800)
+            blueNote.position = CGPoint(x: 240, y: 800)
             blueNote.name = "BlueNote"
             
             addChild(blueNote)
@@ -176,9 +189,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             blueNote.physicsBody = SKPhysicsBody(rectangleOf: blueNote.frame.size)
             blueNote.physicsBody?.usesPreciseCollisionDetection = true
             blueNote.physicsBody!.isDynamic = false
-            blueNote.physicsBody?.categoryBitMask = 2
+            blueNote.physicsBody?.categoryBitMask = 3
             
-            let moveDown = SKAction.moveTo(y: -800, duration: 1)
+            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
             let removeSprite = SKAction.run {
 //                self.blueNote.removeFromParent()
             }
