@@ -23,6 +23,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var deleteTrigger = SKSpriteNode()
     var gameSpeed = 2
     
+    var notes: [SKSpriteNode] = [SKSpriteNode]()
+    
+    
+    
     
     override func didMove(to view: SKView) {
         
@@ -58,7 +62,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
-        timer = Timer.scheduledTimer(timeInterval: 0.6, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
         
     }
     
@@ -66,19 +70,93 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let location = touches.first!.location(in: self)
         print(location)
         
+        if redButton.frame.contains(location)
+        {
+            // touched red button
+            for note in notes
+            {
+                if note.frame.contains(location)
+                {
+                    note.removeFromParent()
+                    print("remove red note")
+                }
+            }
+        }
+        if blueButton.frame.contains(location)
+        {
+            // touched red button
+            for note in notes
+            {
+                if note.frame.contains(location)
+                {
+                    note.removeFromParent()
+                    print("remove blue note")
+                }
+            }
+        }
+        
+        if yellowButton.frame.contains(location)
+        {
+            // touched red button
+            for note in notes
+            {
+                if note.frame.contains(location)
+                {
+                    note.removeFromParent()
+                    print("remove yellow note")
+                }
+            }
+        }
+        
+        if greenButton.frame.contains(location)
+        {
+            // touched red button
+            for note in notes
+            {
+                if note.frame.contains(location)
+                {
+                    note.removeFromParent()
+                    print("remove green note")
+                }
+            }
+        }
+//        if redNote.frame.contains(CGPoint(x: -240, y: -560))
+//        {
+//            if redButton.frame.contains(CGPoint(x: -240, y: -560))
+//
+//            {
+//                redNote.removeFromParent()
+//                print("cool")
+//            }
+//        }
+        
+    }
+    
+    func deleteNote()
+    {
+        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-        print("contact")
+        
         
     if (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 3) || (contact.bodyB.categoryBitMask == 2 && contact.bodyA.categoryBitMask == 3)
       {
      
         if contact.bodyB.node == deleteTrigger
         {
-            print("touched")
+            // rmeove note from array
+//            for note in notes
+//              {
+//                  if contact.bodyB.node == note
+//                  {
+//                    notes.remove(at: <#T##Int#>)
+//                  }
+//              }
             contact.bodyA.node?.removeFromParent()
+            
+  
             
         }
         else
@@ -94,7 +172,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         deleteTrigger = SKSpriteNode(color: .red, size: CGSize(width: frame.width, height: 50))
 //        deleteTrigger.position = CGPoint(x: 0, y: -frame.height/2 - 20)
-        deleteTrigger.position = CGPoint(x: 0, y: -800)
+        deleteTrigger.position = CGPoint(x: 0, y: -900)
         deleteTrigger.physicsBody = SKPhysicsBody(rectangleOf: deleteTrigger.frame.size)
         //deleteTrigger.physicsBody!.isDynamic = false
         deleteTrigger.name = "DeleteTrigger"
@@ -135,6 +213,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sequence = SKAction.sequence([moveDown, removeSprite])
             
             redNote.run(sequence)
+            
+            notes.append(redNote)
 
         }
         else if number == 2
@@ -160,6 +240,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sequence = SKAction.sequence([moveDown, removeSprite])
             
             yellowNote.run(sequence)
+            notes.append(yellowNote)
 
         }
         else if number == 3
@@ -185,6 +266,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sequence = SKAction.sequence([moveDown, removeSprite])
             
             greenNote.run(sequence)
+            notes.append(greenNote)
 
         }
         else if number == 4
@@ -210,6 +292,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let sequence = SKAction.sequence([moveDown, removeSprite])
             
             blueNote.run(sequence)
+            notes.append(blueNote)
 
         }
         
