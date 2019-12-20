@@ -33,6 +33,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         redButton = self.childNode(withName: "redButton") as! SKSpriteNode
+        blueButton = self.childNode(withName: "blueButton") as! SKSpriteNode
+        greenButton = self.childNode(withName: "greenButton") as! SKSpriteNode
+        yellowButton = self.childNode(withName: "yellowButton") as! SKSpriteNode
+        
         
 //        redButton.physicsBody?.categoryBitMask = 1
 //        yellowButton.physicsBody?.categoryBitMask = 1
@@ -60,7 +64,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let location = touches.first!.location(in: self)
-        
+        print(location)
         
     }
     
