@@ -22,12 +22,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timer: Timer?
     var deleteTrigger = SKSpriteNode()
     var scoreLabel = SKLabelNode()
-    var gameSpeed = 2
     
+    var gameSpeed = 2
     var score = 0
     
     var notes: [SKSpriteNode] = [SKSpriteNode]()
-    
     
     
     
@@ -43,23 +42,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         blueButton = self.childNode(withName: "blueButton") as! SKSpriteNode
         greenButton = self.childNode(withName: "greenButton") as! SKSpriteNode
         yellowButton = self.childNode(withName: "yellowButton") as! SKSpriteNode
-        
-        
-//        redButton.physicsBody?.categoryBitMask = 1
-//        yellowButton.physicsBody?.categoryBitMask = 1
-//        greenButton.physicsBody?.categoryBitMask = 1
-//        blueButton.physicsBody?.categoryBitMask = 1
-
-        
-        
-//        redNote.physicsBody?.contactTestBitMask = 3
-//        yellowNote.physicsBody?.contactTestBitMask = 3
-//        greenNote.physicsBody?.contactTestBitMask = 3
-//        blueNote.physicsBody?.contactTestBitMask = 3
-        
-        
-        
-        //        set the size and position of the node
         
         makeDeleteTrigger()
         
@@ -84,11 +66,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if redButton.frame.contains(location)
         {
             // touched red button
-            for note in notes
+            for i in 0..<notes.count
+//            for note in notes
             {
+                let note = notes[i]
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
+                    notes.remove(at: i)
                     print("remove red note")
                     addScore()
                 }
@@ -97,11 +82,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if blueButton.frame.contains(location)
         {
             // touched blue button
-            for note in notes
+            for i in 0..<notes.count
             {
+                let note = notes[i]
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
+                    notes.remove(at: i)
                     print("remove blue note")
                     addScore()
                 }
@@ -111,11 +98,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if yellowButton.frame.contains(location)
         {
             // touched yellow button
-            for note in notes
+            for i in 0..<notes.count
             {
+                let note = notes[i]
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
+                    notes.remove(at: i)
                     print("remove yellow note")
                     addScore()
                 }
@@ -125,11 +114,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if greenButton.frame.contains(location)
         {
             // touched green button
-            for note in notes
+            for i in 0..<notes.count
             {
+                let note = notes[i]
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
+                    notes.remove(at: i)
                     print("remove green note")
                     addScore()
                 }

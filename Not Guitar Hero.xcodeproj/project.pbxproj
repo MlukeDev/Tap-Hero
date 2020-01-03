@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C92F13DF23BFA0DD001B00D8 /* TitleScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92F13DE23BFA0DD001B00D8 /* TitleScreen.swift */; };
+		C92F13E123BFA101001B00D8 /* TitleScreen.sks in Resources */ = {isa = PBXBuildFile; fileRef = C92F13E023BFA101001B00D8 /* TitleScreen.sks */; };
 		C9DC4DEA23A7EA0300370DD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC4DE923A7EA0300370DD0 /* AppDelegate.swift */; };
 		C9DC4DEC23A7EA0300370DD0 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = C9DC4DEB23A7EA0300370DD0 /* GameScene.sks */; };
 		C9DC4DEE23A7EA0300370DD0 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = C9DC4DED23A7EA0300370DD0 /* Actions.sks */; };
@@ -18,6 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C92F13DE23BFA0DD001B00D8 /* TitleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleScreen.swift; sourceTree = "<group>"; };
+		C92F13E023BFA101001B00D8 /* TitleScreen.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TitleScreen.sks; sourceTree = "<group>"; };
 		C9DC4DE623A7EA0300370DD0 /* Not Guitar Hero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Not Guitar Hero.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DC4DE923A7EA0300370DD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DC4DEB23A7EA0300370DD0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -63,6 +67,8 @@
 				C9DC4DE923A7EA0300370DD0 /* AppDelegate.swift */,
 				C9DC4DEB23A7EA0300370DD0 /* GameScene.sks */,
 				C9DC4DED23A7EA0300370DD0 /* Actions.sks */,
+				C92F13E023BFA101001B00D8 /* TitleScreen.sks */,
+				C92F13DE23BFA0DD001B00D8 /* TitleScreen.swift */,
 				C9DC4DEF23A7EA0300370DD0 /* GameScene.swift */,
 				C9DC4DF123A7EA0300370DD0 /* GameViewController.swift */,
 				C9DC4DF323A7EA0300370DD0 /* Main.storyboard */,
@@ -135,6 +141,7 @@
 				C9DC4DEC23A7EA0300370DD0 /* GameScene.sks in Resources */,
 				C9DC4DF723A7EA0600370DD0 /* Assets.xcassets in Resources */,
 				C9DC4DFA23A7EA0600370DD0 /* LaunchScreen.storyboard in Resources */,
+				C92F13E123BFA101001B00D8 /* TitleScreen.sks in Resources */,
 				C9DC4DEE23A7EA0300370DD0 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -148,6 +155,7 @@
 			files = (
 				C9DC4DF023A7EA0300370DD0 /* GameScene.swift in Sources */,
 				C9DC4DF223A7EA0300370DD0 /* GameViewController.swift in Sources */,
+				C92F13DF23BFA0DD001B00D8 /* TitleScreen.swift in Sources */,
 				C9DC4DEA23A7EA0300370DD0 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
