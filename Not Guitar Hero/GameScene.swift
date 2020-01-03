@@ -76,6 +76,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     notes.remove(at: i)
                     print("remove red note")
                     addScore()
+                    break
                 }
             }
         }
@@ -84,6 +85,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             // touched blue button
             for i in 0..<notes.count
             {
+                
                 let note = notes[i]
                 if note.frame.contains(location)
                 {
@@ -91,6 +93,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     notes.remove(at: i)
                     print("remove blue note")
                     addScore()
+                    break
                 }
             }
         }
@@ -107,6 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     notes.remove(at: i)
                     print("remove yellow note")
                     addScore()
+                    break
                 }
             }
         }
@@ -123,6 +127,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     notes.remove(at: i)
                     print("remove green note")
                     addScore()
+                    break
                 }
             }
         }
