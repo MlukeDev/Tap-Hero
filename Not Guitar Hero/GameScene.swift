@@ -21,9 +21,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var blueNote = SKSpriteNode()
     var timer: Timer?
     var deleteTrigger = SKSpriteNode()
+    var scoreLabel = SKLabelNode()
     var gameSpeed = 2
     
+    var score = 0
+    
     var notes: [SKSpriteNode] = [SKSpriteNode]()
+    {
+        didSet
+        {
+            addScore()
+        }
+    }
     
     
     
@@ -62,13 +71,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
-        timer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
         
+    }
+    
+    func addScore()
+    {
+        score += 1
+        scoreLabel.text = "Score: \(score)"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let location = touches.first!.location(in: self)
-        print(location)
+        
+        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
         
         if redButton.frame.contains(location)
         {
@@ -79,44 +95,48 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 {
                     note.removeFromParent()
                     print("remove red note")
+                    
                 }
             }
         }
         if blueButton.frame.contains(location)
         {
-            // touched red button
+            // touched blue button
             for note in notes
             {
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
                     print("remove blue note")
+                    
                 }
             }
         }
         
         if yellowButton.frame.contains(location)
         {
-            // touched red button
+            // touched yellow button
             for note in notes
             {
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
                     print("remove yellow note")
+                    
                 }
             }
         }
         
         if greenButton.frame.contains(location)
         {
-            // touched red button
+            // touched green button
             for note in notes
             {
                 if note.frame.contains(location)
                 {
                     note.removeFromParent()
                     print("remove green note")
+                    
                 }
             }
         }
@@ -131,6 +151,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        }
         
     }
+    
+    
     
     func deleteNote()
     {
