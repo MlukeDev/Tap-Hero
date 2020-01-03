@@ -27,12 +27,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score = 0
     
     var notes: [SKSpriteNode] = [SKSpriteNode]()
-    {
-        didSet
-        {
-            addScore()
-        }
-    }
     
     
     
@@ -78,13 +72,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addScore()
     {
         score += 1
+        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
         scoreLabel.text = "Score: \(score)"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let location = touches.first!.location(in: self)
         
-        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
+        
         
         if redButton.frame.contains(location)
         {
@@ -95,7 +90,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 {
                     note.removeFromParent()
                     print("remove red note")
-                    
+                    addScore()
                 }
             }
         }
@@ -108,7 +103,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 {
                     note.removeFromParent()
                     print("remove blue note")
-                    
+                    addScore()
                 }
             }
         }
@@ -122,7 +117,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 {
                     note.removeFromParent()
                     print("remove yellow note")
-                    
+                    addScore()
                 }
             }
         }
@@ -136,7 +131,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 {
                     note.removeFromParent()
                     print("remove green note")
-                    
+                    addScore()
                 }
             }
         }
