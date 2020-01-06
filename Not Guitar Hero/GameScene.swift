@@ -65,6 +65,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        switch gameSpeed {
+           case 20:
+           self.gameSpeed = self.gameSpeed - 1
+        default:
+            self.gameSpeed = 2
+        }
+        
         let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         borderBody.friction = 0.0
         self.physicsBody = borderBody
