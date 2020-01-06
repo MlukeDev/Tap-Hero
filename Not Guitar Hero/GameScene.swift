@@ -50,6 +50,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 missed = 0
                 scoreLabel.text = "Score: 0"
                 missedLabel.text = "Missed: 0 / 10"
+                
+                let titleScreen = GameScene(fileNamed: "TitleScreen")
+                titleScreen?.scaleMode = .aspectFill
+                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                view?.presentScene(titleScreen!, transition: reveal)
             }
         }
     }
