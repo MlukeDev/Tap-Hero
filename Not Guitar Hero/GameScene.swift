@@ -22,9 +22,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var timer: Timer?
     var deleteTrigger = SKSpriteNode()
     var scoreLabel = SKLabelNode()
+    var streakLabel = SKLabelNode()
+    var missedLabel = SKLabelNode()
     
     var gameSpeed = 2
     var score = 0
+    var streak = 0
+    {
+        didSet
+        {
+            streakLabel = self.childNode(withName: "streakLabel") as! SKLabelNode
+            streakLabel.text = "\(streak)"
+        }
+    }
+    
+    var missed = 0
+    {
+        didSet
+        {
+            missedLabel = self.childNode(withName: "missedLabel") as! SKLabelNode
+            missedLabel.text = "Missed: \(missed) / 10"
+            streak = 0
+            
+            if missed == 10
+            {
+                score = 0
+                missed = 0
+                scoreLabel.text = "Score: 0"
+                missedLabel.text = "Missed: 0 / 10"
+            }
+        }
+    }
     
     var notes: [SKSpriteNode] = [SKSpriteNode]()
     
@@ -54,9 +82,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addScore()
     {
         score += 1
+        streak += 1
         scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
         scoreLabel.text = "Score: \(score)"
     }
+    
+    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let location = touches.first!.location(in: self)
@@ -168,13 +199,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                  }
 //              }
             contact.bodyA.node?.removeFromParent()
-            
+            missed += 1
   
             
         }
         else
         {
             contact.bodyB.node?.removeFromParent()
+            missed += 1
         }
         
       }
