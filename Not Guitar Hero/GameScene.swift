@@ -11,6 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
+    let defaults = UserDefaults.standard
     var redButton = SKSpriteNode()
     var yellowButton = SKSpriteNode()
     var greenButton = SKSpriteNode()
@@ -24,12 +25,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel = SKLabelNode()
     var streakLabel = SKLabelNode()
     var missedLabel = SKLabelNode()
+    var highScoreLabel = SKLabelNode()
+    var highScore = 0
+    
     
     var gameSpeed = 3.0
     var score = 0
     {
         didSet
         {
+            
+            if highScore < score
+            {
+                highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
+                highScore = score
+                let defaults = UserDefaults.standard
+                defaults.set(highScore, forKey: "highScore")
+                highScoreLabel.text = "\(highScore)"
+            }
+            
             switch score {
             case 10...19:
                 gameSpeed = 2.75
@@ -91,6 +105,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
+        highScore = defaults.integer(forKey: "highScore")
+        highScoreLabel.text = "\(highScore)"
+        
         redButton = self.childNode(withName: "redButton") as! SKSpriteNode
         blueButton = self.childNode(withName: "blueButton") as! SKSpriteNode
         greenButton = self.childNode(withName: "greenButton") as! SKSpriteNode
@@ -98,7 +115,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         makeDeleteTrigger()
         
-        
+       
         
         timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
         
