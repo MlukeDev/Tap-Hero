@@ -25,8 +25,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var streakLabel = SKLabelNode()
     var missedLabel = SKLabelNode()
     
-    var gameSpeed = 2
+    var gameSpeed = 3.0
     var score = 0
+    {
+        didSet
+        {
+            switch score {
+            case 10...19:
+                gameSpeed = 2.75
+            case 20...29:
+                gameSpeed = 2.5
+            case 30...39:
+                gameSpeed = 2.25
+            case 40...49:
+                gameSpeed = 2.0
+            default:
+               gameSpeed = 3
+            }
+            
+        }
+    }
+    
     var streak = 0
     {
         didSet
@@ -65,12 +84,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
-        switch gameSpeed {
-           case 20:
-           self.gameSpeed = self.gameSpeed - 1
-        default:
-            self.gameSpeed = 2
-        }
         
         let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
         borderBody.friction = 0.0
