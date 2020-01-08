@@ -12,8 +12,13 @@ import GameplayKit
 
 class TitleScreen: SKScene, SKPhysicsContactDelegate {
     var startButton = SKLabelNode()
+    var easyButton = SKLabelNode()
+    var mediumButton = SKLabelNode()
+    var hardButton = SKLabelNode()
+    var Difficulty = 0.0
     
     override func didMove(to view: SKView) {
+        easyButton = self.childNode(withName: "EasyButton") as! SKLabelNode
         startButton = self.childNode(withName: "startButton") as! SKLabelNode
     }
     
@@ -29,7 +34,27 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
 
             
         }
-
+        if easyButton.frame.contains(location!)
+        {
+            Difficulty = 1.0
+            let defaults = UserDefaults.standard
+                           defaults.set(Difficulty, forKey: "difficulty")
+                           
+        }
+        if mediumButton.frame.contains(location!)
+        {
+            Difficulty = 1.0
+            let defaults = UserDefaults.standard
+                           defaults.set(Difficulty, forKey: "difficulty")
+                           
+        }
+        if hardButton.frame.contains(location!)
+        {
+            Difficulty = 1.0
+            let defaults = UserDefaults.standard
+                           defaults.set(Difficulty, forKey: "difficulty")
+                           
+        }
     }
     
 }
