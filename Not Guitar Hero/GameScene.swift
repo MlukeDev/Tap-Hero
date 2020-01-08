@@ -26,9 +26,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var streakLabel = SKLabelNode()
     var missedLabel = SKLabelNode()
     var highScoreLabel = SKLabelNode()
+    
+    var difficulty = 1.0
     var highScore = 0
-    
-    
     var gameSpeed = 3.0
     var score = 0
     {
@@ -105,6 +105,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
+        difficulty = defaults.double(forKey: "difficulty")
+        
         highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
         highScore = defaults.integer(forKey: "highScore")
         highScoreLabel.text = "High Score: \(highScore)"
@@ -118,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
        
         
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(difficulty), target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
         
     }
     
