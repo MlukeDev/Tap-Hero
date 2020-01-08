@@ -45,6 +45,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
             switch score {
+            case 0...9:
+                gameSpeed = 3.0
             case 10...19:
                 gameSpeed = 2.75
             case 20...29:
@@ -53,8 +55,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 gameSpeed = 2.25
             case 40...49:
                 gameSpeed = 2.0
+            case 50...59:
+                gameSpeed = 1.75
+            case 60...69:
+                gameSpeed = 1.5
+            case 70...79:
+                gameSpeed = 1.25
+            case 80...89:
+                gameSpeed = 1.0
+            case 90...99:
+                gameSpeed = 0.75
             default:
-               gameSpeed = 3
+                gameSpeed = 0.5
             }
             
         }
