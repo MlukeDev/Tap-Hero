@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 highScore = score
                 let defaults = UserDefaults.standard
                 defaults.set(highScore, forKey: "highScore")
-                highScoreLabel.text = "\(highScore)"
+                highScoreLabel.text = "High Score: \(highScore)"
             }
             
             switch score {
@@ -105,8 +105,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         physicsWorld.contactDelegate = self
         
+        highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
         highScore = defaults.integer(forKey: "highScore")
-        highScoreLabel.text = "\(highScore)"
+        highScoreLabel.text = "High Score: \(highScore)"
         
         redButton = self.childNode(withName: "redButton") as! SKSpriteNode
         blueButton = self.childNode(withName: "blueButton") as! SKSpriteNode
