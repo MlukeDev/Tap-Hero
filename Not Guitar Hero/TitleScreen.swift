@@ -18,6 +18,8 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
     var easyBackground = SKSpriteNode()
     var mediumBackground = SKSpriteNode()
     var hardBackground = SKSpriteNode()
+    var statsButton = SKLabelNode()
+    var settingsButton = SKLabelNode()
     var Difficulty = 0.0
     
     override func didMove(to view: SKView) {
@@ -28,10 +30,36 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
         MediumButton = self.childNode(withName: "MediumButton") as! SKLabelNode
         HardButton = self.childNode(withName: "HardButton") as! SKLabelNode
         startButton = self.childNode(withName: "startButton") as! SKLabelNode
+        statsButton = self.childNode(withName: "statsButton") as! SKLabelNode
+        settingsButton = self.childNode(withName: "settingsButton") as! SKLabelNode
         
-        easyBackground.alpha = 0.5
-        mediumBackground.alpha = 0.0
-        hardBackground.alpha = 0.0
+       let defaults = UserDefaults.standard
+        let difficulty = defaults.double(forKey: "difficulty")
+        
+        if difficulty == 1.0
+        {
+            easyBackground.alpha = 0.5
+            mediumBackground.alpha = 0.0
+            hardBackground.alpha = 0.0
+        }
+        else if difficulty == 0.5
+        {
+            easyBackground.alpha = 0.0
+            mediumBackground.alpha = 0.5
+            hardBackground.alpha = 0.0
+        }
+        else if difficulty == 0.25
+        {
+            easyBackground.alpha = 0.0
+            mediumBackground.alpha = 0.0
+            hardBackground.alpha = 0.5
+        }
+        else
+        {
+            easyBackground.alpha = 0.0
+            mediumBackground.alpha = 0.0
+            hardBackground.alpha = 0.0
+        }
         
     }
     
@@ -39,10 +67,10 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
          let location = touches.first?.location(in: self)
         if startButton.frame.contains(location!)
         {
-            
+            print(1)
             let gameScene = GameScene(fileNamed: "GameScene")
             gameScene?.scaleMode = .aspectFill
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+            let reveal = SKTransition.push(with: SKTransitionDirection.down, duration: 0.5)
             view?.presentScene(gameScene!, transition: reveal)
 
             
@@ -79,6 +107,22 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
             easyBackground.alpha = 0.0
             mediumBackground.alpha = 0.0
             hardBackground.alpha = 0.5
+                           
+        }
+        if statsButton.frame.contains(location!)
+        {
+            let statsPage = StatsPage(fileNamed: "StatsPage")
+            statsPage?.scaleMode = .aspectFill
+            let reveal = SKTransition.push(with: SKTransitionDirection.right, duration: 0.5)
+            view?.presentScene(statsPage!, transition: reveal)
+                           
+        }
+        if settingsButton.frame.contains(location!)
+        {
+            let settingsPage = SettingsPage(fileNamed: "SettingsPage")
+            settingsPage?.scaleMode = .aspectFill
+            let reveal = SKTransition.push(with: SKTransitionDirection.left, duration: 0.5)
+            view?.presentScene(settingsPage!, transition: reveal)
                            
         }
     }

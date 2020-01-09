@@ -26,6 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var streakLabel = SKLabelNode()
     var missedLabel = SKLabelNode()
     var highScoreLabel = SKLabelNode()
+    var homeButton = SKLabelNode()
     
     var difficulty = 1.0
     var highScore = 0
@@ -98,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 let titleScreen = GameScene(fileNamed: "TitleScreen")
                 titleScreen?.scaleMode = .aspectFill
-                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+                let reveal = SKTransition.push(with: SKTransitionDirection.up, duration: 0.5)
                 view?.presentScene(titleScreen!, transition: reveal)
             }
         }
@@ -118,6 +119,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         
         difficulty = defaults.double(forKey: "difficulty")
+        
+        homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
         
         highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
         highScore = defaults.integer(forKey: "highScore")
@@ -219,18 +222,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         }
-//        if redNote.frame.contains(CGPoint(x: -240, y: -560))
-//        {
-//            if redButton.frame.contains(CGPoint(x: -240, y: -560))
-//
-//            {
-//                redNote.removeFromParent()
-//                print("cool")
-//            }
-//        }
-        
+        if homeButton.frame.contains(location)
+        {
+            let titleScreen = TitleScreen(fileNamed: "TitleScreen")
+            titleScreen?.scaleMode = .aspectFill
+            let reveal = SKTransition.push(with: SKTransitionDirection.up, duration: 0.5)
+            view?.presentScene(titleScreen!, transition: reveal)
     }
-    
+    }
     
     
     func deleteNote()
