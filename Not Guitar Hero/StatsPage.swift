@@ -18,12 +18,11 @@ class StatsPage: SKScene {
     var easyHighStreak = SKLabelNode()
     var mediumHighStreak = SKLabelNode()
     var hardHighStreak = SKLabelNode()
+    let defaults = UserDefaults.standard
     
     var difficulty = "easy"
 
     override func didMove(to view: SKView) {
-        
-        let defaults = UserDefaults.standard
         
         homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
         easyHighScore = self.childNode(withName: "easyHighScore") as! SKLabelNode

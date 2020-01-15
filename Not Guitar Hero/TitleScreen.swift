@@ -20,6 +20,7 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
     var hardBackground = SKSpriteNode()
     var statsButton = SKLabelNode()
     var settingsButton = SKLabelNode()
+    let defaults = UserDefaults.standard
     var Difficulty = 0.0
     
     override func didMove(to view: SKView) {
@@ -33,82 +34,63 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
         statsButton = self.childNode(withName: "statsButton") as! SKLabelNode
         settingsButton = self.childNode(withName: "settingsButton") as! SKLabelNode
         
-       let defaults = UserDefaults.standard
+        let defaults = UserDefaults.standard
         let difficulty = defaults.double(forKey: "difficulty")
         
-        if difficulty == 1.0
-        {
-            easyBackground.alpha = 0.5
-            mediumBackground.alpha = 0.0
-            hardBackground.alpha = 0.0
-        }
-        else if difficulty == 0.5
-        {
-            easyBackground.alpha = 0.0
-            mediumBackground.alpha = 0.5
-            hardBackground.alpha = 0.0
-        }
-        else if difficulty == 0.25
-        {
-            easyBackground.alpha = 0.0
-            mediumBackground.alpha = 0.0
-            hardBackground.alpha = 0.5
-        }
-        else
-        {
-            easyBackground.alpha = 0.0
-            mediumBackground.alpha = 0.0
-            hardBackground.alpha = 0.0
-        }
+            if difficulty == 1.0
+            {
+                easyBackground.alpha = 0.5
+                mediumBackground.alpha = 0.0
+                hardBackground.alpha = 0.0
+            }
+            else if difficulty == 0.5
+            {
+                easyBackground.alpha = 0.0
+                mediumBackground.alpha = 0.5
+                hardBackground.alpha = 0.0
+            }
+            else if difficulty == 0.25
+            {
+                easyBackground.alpha = 0.0
+                mediumBackground.alpha = 0.0
+                hardBackground.alpha = 0.5
+            }
+            else
+            {
+                easyBackground.alpha = 0.0
+                mediumBackground.alpha = 0.0
+                hardBackground.alpha = 0.0
+            }
         
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-         let location = touches.first?.location(in: self)
+        
+        let location = touches.first?.location(in: self)
+        
         if startButton.frame.contains(location!)
         {
-            print(1)
             let gameScene = GameScene(fileNamed: "GameScene")
             gameScene?.scaleMode = .aspectFill
             let reveal = SKTransition.push(with: SKTransitionDirection.down, duration: 0.5)
             view?.presentScene(gameScene!, transition: reveal)
-
-            
         }
+        
         if EasyButton.frame.contains(location!)
         {
-            print("easy selected")
-            Difficulty = 1.0
-            let defaults = UserDefaults.standard
-                           defaults.set(Difficulty, forKey: "difficulty")
-            easyBackground.alpha = 0.5
-            mediumBackground.alpha = 0.0
-            hardBackground.alpha = 0.0
-            
-                           
+            selectDifficulty(difficulty: 1.0, easyAlpha: 0.5, mediumAlpha: 0.0, hardAlpha: 0.0)
         }
+        
         if MediumButton.frame.contains(location!)
         {
-            print("medium selected")
-            Difficulty = 0.5
-            let defaults = UserDefaults.standard
-                           defaults.set(Difficulty, forKey: "difficulty")
-            easyBackground.alpha = 0.0
-            mediumBackground.alpha = 0.5
-            hardBackground.alpha = 0.0
-                           
+            selectDifficulty(difficulty: 0.5, easyAlpha: 0.0, mediumAlpha: 0.5, hardAlpha: 0.0)
         }
+        
         if HardButton.frame.contains(location!)
         {
-            print("hard selected")
-            Difficulty = 0.25
-            let defaults = UserDefaults.standard
-                           defaults.set(Difficulty, forKey: "difficulty")
-            easyBackground.alpha = 0.0
-            mediumBackground.alpha = 0.0
-            hardBackground.alpha = 0.5
-                           
+            selectDifficulty(difficulty: 0.25, easyAlpha: 0.0, mediumAlpha: 0.0, hardAlpha: 0.5)
         }
+        
         if statsButton.frame.contains(location!)
         {
             let statsPage = StatsPage(fileNamed: "StatsPage")
@@ -117,6 +99,7 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
             view?.presentScene(statsPage!, transition: reveal)
                            
         }
+        
         if settingsButton.frame.contains(location!)
         {
             let settingsPage = SettingsPage(fileNamed: "SettingsPage")
@@ -125,6 +108,15 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
             view?.presentScene(settingsPage!, transition: reveal)
                            
         }
+    }
+    
+    func selectDifficulty(difficulty: Double, easyAlpha: CGFloat, mediumAlpha: CGFloat, hardAlpha: CGFloat)
+    {
+        Difficulty = difficulty
+        defaults.set(Difficulty, forKey: "difficulty")
+        easyBackground.alpha = easyAlpha
+        mediumBackground.alpha = mediumAlpha
+        hardBackground.alpha = hardAlpha
     }
     
 }

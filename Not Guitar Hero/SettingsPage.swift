@@ -22,6 +22,7 @@ class SettingsPage: SKScene {
         homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
         scoreResetButton = self.childNode(withName: "scoreResetButton") as! SKLabelNode
         streakResetButton = self.childNode(withName: "streakResetButton") as! SKLabelNode
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -30,48 +31,12 @@ class SettingsPage: SKScene {
         
         if streakResetButton.frame.contains(location)
         {
-            
-            let resetHighStreakAlert = UIAlertController(title: "Are you sure you want to reset your High Streak?", message: "", preferredStyle: .alert)
-
-            let deleteAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive) {
-                    UIAlertAction in
-                self.defaults.set(0, forKey: "easyHighStreak")
-                self.defaults.set(0, forKey: "mediumHighStreak")
-                self.defaults.set(0, forKey: "hardHighStreak")
-                }
-            
-            let cancelAction = UIAlertAction(title: "No", style: UIAlertAction.Style.default)
-            
-                resetHighStreakAlert.addAction(deleteAction)
-                resetHighStreakAlert.addAction(cancelAction)
-            
-                self.view?.window?.rootViewController?.present(resetHighStreakAlert, animated: true, completion: nil)
-                
-            
-            
-            
-            }
+            displayAlert(value: "Streak")
+        }
         
         if scoreResetButton.frame.contains(location)
         {
-            
-            let resetHighScoreAlert = UIAlertController(title: "Are you sure you want to reset your High Score?", message: "", preferredStyle: .alert)
-
-            let deleteAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive) {
-                UIAlertAction in
-            self.defaults.set(0, forKey: "easyHighStreak")
-            self.defaults.set(0, forKey: "mediumHighStreak")
-            self.defaults.set(0, forKey: "hardHighStreak")
-            }
-            
-             let cancelAction = UIAlertAction(title: "No", style: UIAlertAction.Style.default)
-                       
-                           resetHighScoreAlert.addAction(deleteAction)
-                           resetHighScoreAlert.addAction(cancelAction)
-            
-                self.view?.window?.rootViewController?.present(resetHighScoreAlert, animated: true, completion: nil)
-                
-     
+            displayAlert(value: "Score")
         }
         
         if homeButton.frame.contains(location)
@@ -81,7 +46,26 @@ class SettingsPage: SKScene {
             let reveal = SKTransition.push(with: SKTransitionDirection.right, duration: 0.5)
             view?.presentScene(titleScreen!, transition: reveal)
         }
+        
     }
     
+    func displayAlert(value: String)
+    {
+        let resetAlert = UIAlertController(title: "Are you sure you want to reset your High \(value)?", message: "", preferredStyle: .alert)
+
+        let deleteAction = UIAlertAction(title: "Yes", style: UIAlertAction.Style.destructive) {
+                UIAlertAction in
+            self.defaults.set(0, forKey: "easyHigh\(value)")
+            self.defaults.set(0, forKey: "mediumHigh\(value)")
+            self.defaults.set(0, forKey: "hardHigh\(value)")
+            }
+        
+        let cancelAction = UIAlertAction(title: "No", style: UIAlertAction.Style.default)
+        
+            resetAlert.addAction(deleteAction)
+            resetAlert.addAction(cancelAction)
+        
+            self.view?.window?.rootViewController?.present(resetAlert, animated: true, completion: nil)
+    }
     
 }
