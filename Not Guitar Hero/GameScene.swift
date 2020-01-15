@@ -28,9 +28,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var highScoreLabel = SKLabelNode()
     var homeButton = SKLabelNode()
     
+    
     var difficulty = 1.0
     var highScore = 0
     var gameSpeed = 3.0
+    var highStreak = 0
     var score = 0
     {
         didSet
@@ -43,6 +45,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let defaults = UserDefaults.standard
                 defaults.set(highScore, forKey: "highScore")
                 highScoreLabel.text = "High Score: \(highScore)"
+                
+                if difficulty == 1.0
+                {
+                    defaults.set(highScore, forKey: "easyHighScore")
+                    
+                }
+                else if difficulty == 0.5
+                {
+                    defaults.set(highScore, forKey: "mediumHighScore")
+                }
+                else if difficulty == 0.25
+                {
+                    defaults.set(highScore, forKey: "hardHighScore")
+                }
+                else
+                {
+                    defaults.set(highScore, forKey: "easyHighScore")
+                }
+                
             }
             
             switch score {
@@ -77,6 +98,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         didSet
         {
+            if highStreak < streak
+            {
+            if difficulty == 1.0
+            {
+                defaults.set(streak, forKey: "easyHighStreak")
+                highStreak = streak
+            }
+            else if difficulty == 0.5
+            {
+                defaults.set(streak, forKey: "mediumHighStreak")
+                highStreak = streak
+            }
+            else if difficulty == 0.25
+            {
+                defaults.set(streak, forKey: "hardHighStreak")
+                highStreak = streak
+            }
+            else
+            {
+                defaults.set(streak, forKey: "easyHighStreak")
+                highStreak = streak
+            }
+            
+            
+        }
             streakLabel = self.childNode(withName: "streakLabel") as! SKLabelNode
             streakLabel.text = "\(streak)"
         }
@@ -120,10 +166,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         difficulty = defaults.double(forKey: "difficulty")
         
+        if difficulty == 1.0
+        {
+            highScore = defaults.integer(forKey: "easyHighScore")
+            highStreak = defaults.integer(forKey: "easyHighStreak")
+        }
+        else if difficulty == 0.5
+        {
+            highScore = defaults.integer(forKey: "mediumHighScore")
+            highStreak = defaults.integer(forKey: "mediumHighStreak")
+        }
+        else if difficulty == 0.25
+        {
+            highScore = defaults.integer(forKey: "hardHighScore")
+            highStreak = defaults.integer(forKey: "hardHighStreak")
+        }
+        else
+        {
+            highScore = defaults.integer(forKey: "easyHighScore")
+            highStreak = defaults.integer(forKey: "easyHighStreak")
+        }
+        
         homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
         
         highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
-        highScore = defaults.integer(forKey: "highScore")
         highScoreLabel.text = "High Score: \(highScore)"
         
         redButton = self.childNode(withName: "redButton") as! SKSpriteNode
@@ -232,11 +298,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func deleteNote()
-    {
-        
-    }
-    
     func didBegin(_ contact: SKPhysicsContact) {
         
         
@@ -246,18 +307,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
      
         if contact.bodyB.node == deleteTrigger
         {
-            // rmeove note from array
-//            for note in notes
-//              {
-//                  if contact.bodyB.node == note
-//                  {
-//                    notes.remove(at: <#T##Int#>)
-//                  }
-//              }
             contact.bodyA.node?.removeFromParent()
             missed += 1
-  
-            
         }
         else
         {
