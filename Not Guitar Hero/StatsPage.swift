@@ -9,8 +9,8 @@
 import SpriteKit
 import GameplayKit
 
-class StatsPage: SKScene {
-
+class StatsPage: SKScene
+{
     var homeButton = SKLabelNode()
     var easyHighScore = SKLabelNode()
     var mediumHighScore = SKLabelNode()
@@ -22,8 +22,8 @@ class StatsPage: SKScene {
     
     var difficulty = "easy"
 
-    override func didMove(to view: SKView) {
-        
+    override func didMove(to view: SKView)
+    {
         homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
         easyHighScore = self.childNode(withName: "easyHighScore") as! SKLabelNode
         mediumHighScore = self.childNode(withName: "mediumHighScore") as! SKLabelNode
@@ -47,10 +47,9 @@ class StatsPage: SKScene {
         hardHighStreak.text = "\(hardHighStreakVar)"
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
         let location = touches.first!.location(in: self)
-        
         if homeButton.frame.contains(location)
         {
             let titleScreen = TitleScreen(fileNamed: "TitleScreen")

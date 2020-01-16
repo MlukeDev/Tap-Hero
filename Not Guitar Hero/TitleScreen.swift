@@ -61,7 +61,6 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
                 mediumBackground.alpha = 0.0
                 hardBackground.alpha = 0.0
             }
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -97,7 +96,6 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
             statsPage?.scaleMode = .aspectFill
             let reveal = SKTransition.push(with: SKTransitionDirection.right, duration: 0.5)
             view?.presentScene(statsPage!, transition: reveal)
-                           
         }
         
         if settingsButton.frame.contains(location!)
@@ -106,7 +104,6 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
             settingsPage?.scaleMode = .aspectFill
             let reveal = SKTransition.push(with: SKTransitionDirection.left, duration: 0.5)
             view?.presentScene(settingsPage!, transition: reveal)
-                           
         }
     }
     
@@ -118,6 +115,5 @@ class TitleScreen: SKScene, SKPhysicsContactDelegate {
         mediumBackground.alpha = mediumAlpha
         hardBackground.alpha = hardAlpha
     }
-    
 }
 

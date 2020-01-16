@@ -27,70 +27,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var missedLabel = SKLabelNode()
     var highScoreLabel = SKLabelNode()
     var homeButton = SKLabelNode()
+    var location = CGPoint()
+    var touchedLocation = SKSpriteNode()
     
+    var notes: [SKSpriteNode] = [SKSpriteNode]()
     
     var difficulty = 1.0
     var highScore = 0
     var gameSpeed = 3.0
     var highStreak = 0
+    
     var score = 0
     {
         didSet
         {
-            
-            if highScore < score
-            {
-                highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
-                highScore = score
-                let defaults = UserDefaults.standard
-                defaults.set(highScore, forKey: "highScore")
-                highScoreLabel.text = "High Score: \(highScore)"
-                
-                if difficulty == 1.0
-                {
-                    defaults.set(highScore, forKey: "easyHighScore")
-                    
-                }
-                else if difficulty == 0.5
-                {
-                    defaults.set(highScore, forKey: "mediumHighScore")
-                }
-                else if difficulty == 0.25
-                {
-                    defaults.set(highScore, forKey: "hardHighScore")
-                }
-                else
-                {
-                    defaults.set(highScore, forKey: "easyHighScore")
-                }
-                
-            }
-            
-            switch score {
-            case 0...9:
-                gameSpeed = 3.0
-            case 10...19:
-                gameSpeed = 2.75
-            case 20...29:
-                gameSpeed = 2.5
-            case 30...39:
-                gameSpeed = 2.25
-            case 40...49:
-                gameSpeed = 2.0
-            case 50...59:
-                gameSpeed = 1.75
-            case 60...69:
-                gameSpeed = 1.5
-            case 70...79:
-                gameSpeed = 1.25
-            case 80...89:
-                gameSpeed = 1.0
-            case 90...99:
-                gameSpeed = 0.75
-            default:
-                gameSpeed = 0.5
-            }
-            
+            setHighScore()
+            varySpeed()
         }
     }
     
@@ -98,8 +50,228 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     {
         didSet
         {
-            if highStreak < streak
+            setHighStreak()
+        }
+    }
+    
+    var missed = 0
+    {
+        didSet
+        {
+            missedLabel = self.childNode(withName: "missedLabel") as! SKLabelNode
+            missedLabel.text = "Missed: \(missed) / 10"
+            streak = 0
+            
+            gameOverCheck()
+        }
+    }
+    
+    override func didMove(to view: SKView)
+    {
+        definePhysics()
+        setDefaults()
+        setUpNodes()
+        makeDeleteTrigger()
+        
+        timer = Timer.scheduledTimer(timeInterval: TimeInterval(difficulty), target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
+    }
+    
+    func addScore()
+    {
+        score += 1
+        streak += 1
+        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
+        scoreLabel.text = "Score: \(score)"
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
+        
+        location = touches.first!.location(in: self)
+        
+        deleteNote()
+        
+       
+        if homeButton.frame.contains(location)
+        {
+            let titleScreen = TitleScreen(fileNamed: "TitleScreen")
+            titleScreen?.scaleMode = .aspectFill
+            let reveal = SKTransition.push(with: SKTransitionDirection.up, duration: 0.5)
+            view?.presentScene(titleScreen!, transition: reveal)
+        }
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact)
+    {
+    if (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 3) || (contact.bodyB.categoryBitMask == 2 && contact.bodyA.categoryBitMask == 3)
+      {
+        if contact.bodyB.node == deleteTrigger
+        {
+            contact.bodyA.node?.removeFromParent()
+            missed += 1
+        }
+        else
+        {
+            contact.bodyB.node?.removeFromParent()
+            missed += 1
+        }
+      }
+    }
+    
+    func deleteNote()
+    {
+        if redButton.frame.contains(location) || blueButton.frame.contains(location) || yellowButton.frame.contains(location) || greenButton.frame.contains(location)
+        {
+            for i in 0..<notes.count
             {
+                let note = notes[i]
+                if note.frame.contains(location)
+                {
+                    note.removeFromParent()
+                    notes.remove(at: i)
+                    addScore()
+                    break
+                }
+            }
+        }
+    }
+    
+    func definePhysics()
+    {
+          let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+          borderBody.friction = 0.0
+          self.physicsBody = borderBody
+          physicsWorld.gravity = CGVector(dx: 0, dy: 0)
+          physicsWorld.contactDelegate = self
+    }
+    
+    func setDefaults()
+    {
+        
+       difficulty = defaults.double(forKey: "difficulty")
+        
+       if difficulty == 1.0
+       {
+           highScore = defaults.integer(forKey: "easyHighScore")
+           highStreak = defaults.integer(forKey: "easyHighStreak")
+       }
+       else if difficulty == 0.5
+       {
+           highScore = defaults.integer(forKey: "mediumHighScore")
+           highStreak = defaults.integer(forKey: "mediumHighStreak")
+       }
+       else if difficulty == 0.25
+       {
+           highScore = defaults.integer(forKey: "hardHighScore")
+           highStreak = defaults.integer(forKey: "hardHighStreak")
+       }
+       else
+       {
+           highScore = defaults.integer(forKey: "easyHighScore")
+           highStreak = defaults.integer(forKey: "easyHighStreak")
+       }
+    }
+    
+    func makeDeleteTrigger()
+    {
+        deleteTrigger = SKSpriteNode(color: .red, size: CGSize(width: frame.width, height: 50))
+        deleteTrigger.position = CGPoint(x: 0, y: -900)
+        deleteTrigger.physicsBody = SKPhysicsBody(rectangleOf: deleteTrigger.frame.size)
+        deleteTrigger.name = "DeleteTrigger"
+        deleteTrigger.physicsBody?.categoryBitMask = 2
+        deleteTrigger.physicsBody?.contactTestBitMask = 3
+        deleteTrigger.physicsBody?.pinned = true
+        deleteTrigger.physicsBody?.allowsRotation = false
+        addChild(deleteTrigger)
+    }
+    
+    func gameOverCheck()
+    {
+        if missed == 10
+        {
+            score = 0
+            missed = 0
+            scoreLabel.text = "Score: 0"
+            missedLabel.text = "Missed: 0 / 10"
+            
+            let titleScreen = GameScene(fileNamed: "TitleScreen")
+            titleScreen?.scaleMode = .aspectFill
+            let reveal = SKTransition.push(with: SKTransitionDirection.up, duration: 0.5)
+            view?.presentScene(titleScreen!, transition: reveal)
+        }
+    }
+    
+    func varySpeed()
+    {
+        switch score {
+        case 0...9:
+            gameSpeed = 3.0
+        case 10...19:
+            gameSpeed = 2.75
+        case 20...29:
+            gameSpeed = 2.5
+        case 30...39:
+            gameSpeed = 2.25
+        case 40...49:
+            gameSpeed = 2.0
+        case 50...59:
+            gameSpeed = 1.75
+        case 60...69:
+            gameSpeed = 1.5
+        case 70...79:
+            gameSpeed = 1.25
+        case 80...89:
+            gameSpeed = 1.0
+        case 90...99:
+            gameSpeed = 0.75
+        default:
+            gameSpeed = 0.5
+        }
+    }
+    
+    func setUpNodes()
+    {
+        homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
+        highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
+        highScoreLabel.text = "High Score: \(highScore)"
+        redButton = self.childNode(withName: "redButton") as! SKSpriteNode
+        blueButton = self.childNode(withName: "blueButton") as! SKSpriteNode
+        greenButton = self.childNode(withName: "greenButton") as! SKSpriteNode
+        yellowButton = self.childNode(withName: "yellowButton") as! SKSpriteNode
+    }
+    
+    func setHighScore()
+    {
+        if highScore < score
+        {
+            highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
+            highScore = score
+            defaults.set(highScore, forKey: "highScore")
+            highScoreLabel.text = "High Score: \(highScore)"
+            
+            if difficulty == 1.0
+            {
+                defaults.set(highScore, forKey: "easyHighScore")
+            }
+            else if difficulty == 0.5
+            {
+                defaults.set(highScore, forKey: "mediumHighScore")
+            }
+            else if difficulty == 0.25
+            {
+                defaults.set(highScore, forKey: "hardHighScore")
+            }
+            else
+            {
+                defaults.set(highScore, forKey: "easyHighScore")
+            }
+        }
+    }
+    
+    func setHighStreak()
+    {
+        if highStreak < streak
+        {
             if difficulty == 1.0
             {
                 defaults.set(streak, forKey: "easyHighStreak")
@@ -120,334 +292,54 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 defaults.set(streak, forKey: "easyHighStreak")
                 highStreak = streak
             }
-            
-            
         }
-            streakLabel = self.childNode(withName: "streakLabel") as! SKLabelNode
-            streakLabel.text = "\(streak)"
-        }
-    }
-    
-    var missed = 0
-    {
-        didSet
-        {
-            missedLabel = self.childNode(withName: "missedLabel") as! SKLabelNode
-            missedLabel.text = "Missed: \(missed) / 10"
-            streak = 0
-            
-            if missed == 10
-            {
-                score = 0
-                missed = 0
-                scoreLabel.text = "Score: 0"
-                missedLabel.text = "Missed: 0 / 10"
-                
-                let titleScreen = GameScene(fileNamed: "TitleScreen")
-                titleScreen?.scaleMode = .aspectFill
-                let reveal = SKTransition.push(with: SKTransitionDirection.up, duration: 0.5)
-                view?.presentScene(titleScreen!, transition: reveal)
-            }
-        }
-    }
-    
-    var notes: [SKSpriteNode] = [SKSpriteNode]()
-    
-    
-    
-    override func didMove(to view: SKView) {
-        
-        
-        let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
-        borderBody.friction = 0.0
-        self.physicsBody = borderBody
-        physicsWorld.gravity = CGVector(dx: 0, dy: 0)
-        physicsWorld.contactDelegate = self
-        
-        difficulty = defaults.double(forKey: "difficulty")
-        
-        if difficulty == 1.0
-        {
-            highScore = defaults.integer(forKey: "easyHighScore")
-            highStreak = defaults.integer(forKey: "easyHighStreak")
-        }
-        else if difficulty == 0.5
-        {
-            highScore = defaults.integer(forKey: "mediumHighScore")
-            highStreak = defaults.integer(forKey: "mediumHighStreak")
-        }
-        else if difficulty == 0.25
-        {
-            highScore = defaults.integer(forKey: "hardHighScore")
-            highStreak = defaults.integer(forKey: "hardHighStreak")
-        }
-        else
-        {
-            highScore = defaults.integer(forKey: "easyHighScore")
-            highStreak = defaults.integer(forKey: "easyHighStreak")
-        }
-        
-        homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
-        
-        highScoreLabel = self.childNode(withName: "highScoreLabel") as! SKLabelNode
-        highScoreLabel.text = "High Score: \(highScore)"
-        
-        redButton = self.childNode(withName: "redButton") as! SKSpriteNode
-        blueButton = self.childNode(withName: "blueButton") as! SKSpriteNode
-        greenButton = self.childNode(withName: "greenButton") as! SKSpriteNode
-        yellowButton = self.childNode(withName: "yellowButton") as! SKSpriteNode
-        
-        makeDeleteTrigger()
-        
-       
-        
-        timer = Timer.scheduledTimer(timeInterval: TimeInterval(difficulty), target: self, selector: #selector(makeNote), userInfo: nil, repeats: true)
-        
-    }
-    
-    func addScore()
-    {
-        score += 1
-        streak += 1
-        scoreLabel = self.childNode(withName: "scoreLabel") as! SKLabelNode
-        scoreLabel.text = "Score: \(score)"
-    }
-    
-    
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let location = touches.first!.location(in: self)
-        
-        
-        
-        if redButton.frame.contains(location)
-        {
-            // touched red button
-            for i in 0..<notes.count
-//            for note in notes
-            {
-                let note = notes[i]
-                if note.frame.contains(location)
-                {
-                    note.removeFromParent()
-                    notes.remove(at: i)
-                    print("remove red note")
-                    addScore()
-                    break
-                }
-            }
-        }
-        if blueButton.frame.contains(location)
-        {
-            // touched blue button
-            for i in 0..<notes.count
-            {
-                
-                let note = notes[i]
-                if note.frame.contains(location)
-                {
-                    note.removeFromParent()
-                    notes.remove(at: i)
-                    print("remove blue note")
-                    addScore()
-                    break
-                }
-            }
-        }
-        
-        if yellowButton.frame.contains(location)
-        {
-            // touched yellow button
-            for i in 0..<notes.count
-            {
-                let note = notes[i]
-                if note.frame.contains(location)
-                {
-                    note.removeFromParent()
-                    notes.remove(at: i)
-                    print("remove yellow note")
-                    addScore()
-                    break
-                }
-            }
-        }
-        
-        if greenButton.frame.contains(location)
-        {
-            // touched green button
-            for i in 0..<notes.count
-            {
-                let note = notes[i]
-                if note.frame.contains(location)
-                {
-                    note.removeFromParent()
-                    notes.remove(at: i)
-                    print("remove green note")
-                    addScore()
-                    break
-                }
-            }
-        }
-        if homeButton.frame.contains(location)
-        {
-            let titleScreen = TitleScreen(fileNamed: "TitleScreen")
-            titleScreen?.scaleMode = .aspectFill
-            let reveal = SKTransition.push(with: SKTransitionDirection.up, duration: 0.5)
-            view?.presentScene(titleScreen!, transition: reveal)
-    }
-    }
-    
-    
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-        
-        
-    if (contact.bodyA.categoryBitMask == 2 && contact.bodyB.categoryBitMask == 3) || (contact.bodyB.categoryBitMask == 2 && contact.bodyA.categoryBitMask == 3)
-      {
-     
-        if contact.bodyB.node == deleteTrigger
-        {
-            contact.bodyA.node?.removeFromParent()
-            missed += 1
-        }
-        else
-        {
-            contact.bodyB.node?.removeFromParent()
-            missed += 1
-        }
-        
-      }
-       
-    }
-    
-    func makeDeleteTrigger()
-    {
-        deleteTrigger = SKSpriteNode(color: .red, size: CGSize(width: frame.width, height: 50))
-//        deleteTrigger.position = CGPoint(x: 0, y: -frame.height/2 - 20)
-        deleteTrigger.position = CGPoint(x: 0, y: -900)
-        deleteTrigger.physicsBody = SKPhysicsBody(rectangleOf: deleteTrigger.frame.size)
-        //deleteTrigger.physicsBody!.isDynamic = false
-        deleteTrigger.name = "DeleteTrigger"
-        deleteTrigger.physicsBody?.categoryBitMask = 2
-        deleteTrigger.physicsBody?.contactTestBitMask = 3
-//        deleteTrigger.physicsBody?.isDynamic = true
-        deleteTrigger.physicsBody?.pinned = true
-        deleteTrigger.physicsBody?.allowsRotation = false
-
-        addChild(deleteTrigger)
-        print("Delete Trigger Made")
+        streakLabel = self.childNode(withName: "streakLabel") as! SKLabelNode
+        streakLabel.text = "\(streak)"
     }
     
     @objc func makeNote()
     {
-        
         let number = Int.random(in: 1...4)
+        var color = redNote
+        var image = "RedNote"
+        var pos = CGPoint(x: -240, y: 800)
+        
         if number == 1
         {
-            
-            
-            redNote = SKSpriteNode(imageNamed: "RedNote")
-            redNote.size = CGSize(width: 160, height: 160)
-            redNote.position = CGPoint(x: -240, y: 800)
-            redNote.name = "RedNote"
-            
-            addChild(redNote)
-            
-            redNote.physicsBody = SKPhysicsBody(rectangleOf: redNote.frame.size)
-            redNote.physicsBody?.usesPreciseCollisionDetection = true
-            redNote.physicsBody!.isDynamic = false
-            redNote.physicsBody?.categoryBitMask = 3
-            
-            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
-            let removeSprite = SKAction.run {
- //               self.redNote.removeFromParent()
-            }
-            let sequence = SKAction.sequence([moveDown, removeSprite])
-            
-            redNote.run(sequence)
-            
-            notes.append(redNote)
-
+            color = redNote
+            image = "RedNote"
+            pos = CGPoint(x: -240, y: 800)
         }
         else if number == 2
         {
-            
-            
-            yellowNote = SKSpriteNode(imageNamed: "YellowNote")
-            yellowNote.size = CGSize(width: 160, height: 160)
-            yellowNote.position = CGPoint(x: -80, y: 800)
-            yellowNote.name = "YellowNote"
-
-            addChild(yellowNote)
-            
-           yellowNote.physicsBody = SKPhysicsBody(rectangleOf: yellowNote.frame.size)
-           yellowNote.physicsBody?.usesPreciseCollisionDetection = true
-           yellowNote.physicsBody!.isDynamic = false
-           yellowNote.physicsBody?.categoryBitMask = 3
-            
-            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
-            let removeSprite = SKAction.run {
-//                self.yellowNote.removeFromParent()
-            }
-            let sequence = SKAction.sequence([moveDown, removeSprite])
-            
-            yellowNote.run(sequence)
-            notes.append(yellowNote)
-
+            color = yellowNote
+            image = "YellowNote"
+            pos = CGPoint(x: -80, y: 800)
         }
         else if number == 3
         {
-            
-            
-            greenNote = SKSpriteNode(imageNamed: "GreenNote")
-            greenNote.size = CGSize(width: 160, height: 160)
-            greenNote.position = CGPoint(x: 80, y: 800)
-            greenNote.name = "GreenNote"
-
-                       addChild(greenNote)
-            
-            greenNote.physicsBody = SKPhysicsBody(rectangleOf: greenNote.frame.size)
-            greenNote.physicsBody?.usesPreciseCollisionDetection = true
-            greenNote.physicsBody!.isDynamic = false
-            greenNote.physicsBody?.categoryBitMask = 3
-            
-            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
-            let removeSprite = SKAction.run {
-//                self.greenNote.removeFromParent()
-            }
-            let sequence = SKAction.sequence([moveDown, removeSprite])
-            
-            greenNote.run(sequence)
-            notes.append(greenNote)
-
+            color = greenNote
+            image = "GreenNote"
+            pos = CGPoint(x: 80, y: 800)
         }
         else if number == 4
         {
-            
-            
-            blueNote = SKSpriteNode(imageNamed: "BlueNote")
-            blueNote.size = CGSize(width: 160, height: 160)
-            blueNote.position = CGPoint(x: 240, y: 800)
-            blueNote.name = "BlueNote"
-            
-            addChild(blueNote)
-            
-            blueNote.physicsBody = SKPhysicsBody(rectangleOf: blueNote.frame.size)
-            blueNote.physicsBody?.usesPreciseCollisionDetection = true
-            blueNote.physicsBody!.isDynamic = false
-            blueNote.physicsBody?.categoryBitMask = 3
-            
-            let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
-            let removeSprite = SKAction.run {
-//                self.blueNote.removeFromParent()
-            }
-            let sequence = SKAction.sequence([moveDown, removeSprite])
-            
-            blueNote.run(sequence)
-            notes.append(blueNote)
-
+            color = blueNote
+            image = "BlueNote"
+            pos = CGPoint(x: 240, y: 800)
         }
         
+        color = SKSpriteNode(imageNamed: image)
+        color.size = CGSize(width: 160, height: 160)
+        color.position = pos
+        color.name = image
+        addChild(color)
+        color.physicsBody = SKPhysicsBody(rectangleOf: color.frame.size)
+        color.physicsBody?.usesPreciseCollisionDetection = true
+        color.physicsBody!.isDynamic = false
+        color.physicsBody?.categoryBitMask = 3
+        let moveDown = SKAction.moveTo(y: -800, duration: TimeInterval(gameSpeed))
+        color.run(moveDown)
+        notes.append(color)
     }
-    
 }

@@ -10,23 +10,22 @@ import SpriteKit
 import GameplayKit
 import UIKit
 
-class SettingsPage: SKScene {
-
+class SettingsPage: SKScene
+{
     var homeButton = SKLabelNode()
     var scoreResetButton = SKLabelNode()
     var streakResetButton = SKLabelNode()
     let defaults = UserDefaults.standard
 
-    override func didMove(to view: SKView) {
-        
+    override func didMove(to view: SKView)
+    {
         homeButton = self.childNode(withName: "homeButton") as! SKLabelNode
         scoreResetButton = self.childNode(withName: "scoreResetButton") as! SKLabelNode
         streakResetButton = self.childNode(withName: "streakResetButton") as! SKLabelNode
-        
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?)
+    {
         let location = touches.first!.location(in: self)
         
         if streakResetButton.frame.contains(location)
