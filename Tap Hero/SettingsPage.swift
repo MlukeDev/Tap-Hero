@@ -1,6 +1,6 @@
 //
 //  SettingsPage.swift
-//  Not Guitar Hero
+//  Tap Hero
 //
 //  Created by Matt Luke on 1/9/20.
 //  Copyright © 2020 MlukeApps. All rights reserved.

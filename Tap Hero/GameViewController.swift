@@ -1,6 +1,6 @@
 //
 //  GameViewController.swift
-//  Not Guitar Hero
+//  Tap Hero
 //
 //  Created by Matt Luke on 12/16/19.
 //  Copyright © 2019 MlukeApps. All rights reserved.

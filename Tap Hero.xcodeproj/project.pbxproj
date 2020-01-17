@@ -26,12 +26,12 @@
 /* Begin PBXFileReference section */
 		C92F13DE23BFA0DD001B00D8 /* TitleScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleScreen.swift; sourceTree = "<group>"; };
 		C92F13E023BFA101001B00D8 /* TitleScreen.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = TitleScreen.sks; sourceTree = "<group>"; };
-		C92F13E223BFBCC4001B00D8 /* Not Guitar Hero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Not Guitar Hero.entitlements"; sourceTree = "<group>"; };
+		C92F13E223BFBCC4001B00D8 /* Tap Hero.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Tap Hero.entitlements"; sourceTree = "<group>"; };
 		C9D968EB23C793DC008D0FEA /* StatsPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = StatsPage.sks; sourceTree = "<group>"; };
 		C9D968ED23C79432008D0FEA /* StatsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsPage.swift; sourceTree = "<group>"; };
 		C9D968EF23C7AE1B008D0FEA /* SettingsPage.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SettingsPage.sks; sourceTree = "<group>"; };
 		C9D968F123C7AF02008D0FEA /* SettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPage.swift; sourceTree = "<group>"; };
-		C9DC4DE623A7EA0300370DD0 /* Not Guitar Hero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Not Guitar Hero.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9DC4DE623A7EA0300370DD0 /* Tap Hero.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tap Hero.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9DC4DE923A7EA0300370DD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C9DC4DEB23A7EA0300370DD0 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		C9DC4DED23A7EA0300370DD0 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -57,7 +57,7 @@
 		C9DC4DDD23A7EA0300370DD0 = {
 			isa = PBXGroup;
 			children = (
-				C9DC4DE823A7EA0300370DD0 /* Not Guitar Hero */,
+				C9DC4DE823A7EA0300370DD0 /* Tap Hero */,
 				C9DC4DE723A7EA0300370DD0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,15 +65,15 @@
 		C9DC4DE723A7EA0300370DD0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C9DC4DE623A7EA0300370DD0 /* Not Guitar Hero.app */,
+				C9DC4DE623A7EA0300370DD0 /* Tap Hero.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		C9DC4DE823A7EA0300370DD0 /* Not Guitar Hero */ = {
+		C9DC4DE823A7EA0300370DD0 /* Tap Hero */ = {
 			isa = PBXGroup;
 			children = (
-				C92F13E223BFBCC4001B00D8 /* Not Guitar Hero.entitlements */,
+				C92F13E223BFBCC4001B00D8 /* Tap Hero.entitlements */,
 				C9DC4DE923A7EA0300370DD0 /* AppDelegate.swift */,
 				C9DC4DEB23A7EA0300370DD0 /* GameScene.sks */,
 				C9D968EB23C793DC008D0FEA /* StatsPage.sks */,
@@ -90,15 +90,15 @@
 				C9DC4DF823A7EA0600370DD0 /* LaunchScreen.storyboard */,
 				C9DC4DFB23A7EA0600370DD0 /* Info.plist */,
 			);
-			path = "Not Guitar Hero";
+			path = "Tap Hero";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C9DC4DE523A7EA0300370DD0 /* Not Guitar Hero */ = {
+		C9DC4DE523A7EA0300370DD0 /* Tap Hero */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C9DC4DFE23A7EA0600370DD0 /* Build configuration list for PBXNativeTarget "Not Guitar Hero" */;
+			buildConfigurationList = C9DC4DFE23A7EA0600370DD0 /* Build configuration list for PBXNativeTarget "Tap Hero" */;
 			buildPhases = (
 				C9DC4DE223A7EA0300370DD0 /* Sources */,
 				C9DC4DE323A7EA0300370DD0 /* Frameworks */,
@@ -108,9 +108,9 @@
 			);
 			dependencies = (
 			);
-			name = "Not Guitar Hero";
+			name = "Tap Hero";
 			productName = "Not Guitar Hero";
-			productReference = C9DC4DE623A7EA0300370DD0 /* Not Guitar Hero.app */;
+			productReference = C9DC4DE623A7EA0300370DD0 /* Tap Hero.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -128,7 +128,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C9DC4DE123A7EA0300370DD0 /* Build configuration list for PBXProject "Not Guitar Hero" */;
+			buildConfigurationList = C9DC4DE123A7EA0300370DD0 /* Build configuration list for PBXProject "Tap Hero" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -141,7 +141,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C9DC4DE523A7EA0300370DD0 /* Not Guitar Hero */,
+				C9DC4DE523A7EA0300370DD0 /* Tap Hero */,
 			);
 		};
 /* End PBXProject section */
@@ -327,8 +327,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.MlukeApps.Not-Guitar-Hero";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.MlukeApps.Tap-Hero";
+				PRODUCT_NAME = "Tap Hero";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -348,8 +348,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.MlukeApps.Not-Guitar-Hero";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.MlukeApps.Tap-Hero";
+				PRODUCT_NAME = "Tap Hero";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -359,7 +359,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C9DC4DE123A7EA0300370DD0 /* Build configuration list for PBXProject "Not Guitar Hero" */ = {
+		C9DC4DE123A7EA0300370DD0 /* Build configuration list for PBXProject "Tap Hero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9DC4DFC23A7EA0600370DD0 /* Debug */,
@@ -368,7 +368,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C9DC4DFE23A7EA0600370DD0 /* Build configuration list for PBXNativeTarget "Not Guitar Hero" */ = {
+		C9DC4DFE23A7EA0600370DD0 /* Build configuration list for PBXNativeTarget "Tap Hero" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C9DC4DFF23A7EA0600370DD0 /* Debug */,
